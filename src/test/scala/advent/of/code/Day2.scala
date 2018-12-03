@@ -5,12 +5,17 @@ import org.scalatest.{FlatSpec, Matchers}
 import scala.io.Source
 
 object Day2 {
+
   object Part1 {
+
     case class ID(s: String) {
-      private val occurrences     = s.groupBy(identity).map(_._2.length)
+      private val occurrences = s.groupBy(identity).map(_._2.length)
+
       def occurs(n: Int): Boolean = occurrences.count(_ == n) >= 1
-      def check: Boolean          = occurs(2) && occurs(3)
+
+      def check: Boolean = occurs(2) && occurs(3)
     }
+
     def checkSum(ss: Seq[String]): Int = {
       val ids = ss.map(ID)
       ids.count(_.occurs(2)) * ids.count(_.occurs(3))
@@ -34,11 +39,13 @@ object Day2 {
   }
 
 }
+
 class Day2Specs extends FlatSpec with Matchers {
+
   import Day2.Part1._
   import Day2.Part2._
 
-  val input: Seq[String] = Source.fromFile("Day2.txt").getLines().toSeq
+  val input: Seq[String] = Source.fromFile("inputs/Day2.txt").getLines().toSeq
 
   val ss = Seq("abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab")
   "has chars that occur twice" should "work" in {

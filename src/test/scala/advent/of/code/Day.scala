@@ -4,5 +4,6 @@ import scala.io.Source
 
 trait Day {
   def dayNumber: Int
-  lazy val input: List[String] = Source.fromFile(s"Day$dayNumber.txt").getLines().toList
+
+  lazy val input: List[String] = Source.fromFile(s"inputs/Day$dayNumber.txt").getLines().toList
 }

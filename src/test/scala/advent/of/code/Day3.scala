@@ -33,10 +33,11 @@ object Day3 extends Day {
       }).toList
     }
   }
+
   case class Point(x: Int, y: Int)
 
   def part1(claims: Claim*): Int = {
-    claims.flatMap(x => x.area).groupBy(identity).map(x => x._1 -> x._2.size).count(x => x._2 > 1)
+    claims.flatMap(x => x.area).groupBy(identity).map(_._2.size).count(x => x > 1)
   }
 
   def part2(claims: Claim*): Claim = {
