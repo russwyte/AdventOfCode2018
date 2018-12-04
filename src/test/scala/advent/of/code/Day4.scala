@@ -79,7 +79,7 @@ class Day4 extends FlatSpec with Day with Matchers {
     res._1 * res._2._1
   }
 
-  "part1" should "work" in {
+  "Day4" should "work" in {
     part1(shifts(events(Sample))) should be(240)
     part1(shifts(events(input))) should be(143415)
     part2(shifts(events(Sample))) should be(4455)
