@@ -2,8 +2,6 @@ package advent.of.code
 
 import org.scalatest.{FlatSpec, Matchers}
 
-import scala.io.Source
-
 object Day1 extends Day {
 
   override def dayNumber: Int = 1
