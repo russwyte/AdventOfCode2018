@@ -4,7 +4,9 @@ import org.scalatest.{FlatSpec, Matchers}
 
 import scala.io.Source
 
-object Day1 {
+object Day1 extends Day {
+
+  override def dayNumber: Int = 1
 
   object Part1 {
     type Operation = (BigInt, BigInt) => BigInt
@@ -56,20 +58,19 @@ class Day1Specs extends FlatSpec with Matchers {
 
   import advent.of.code.Day1.Part1
 
-  val Day1Input = Source.fromFile("inputs/Day1.txt").getLines().toSeq
 
   "applying +1,-1,+1" should "be 1" in {
     Part1("+1", "-1", "+1") should be(1)
   }
 
   "applying the input" should "work as expected" in {
-    Part1(Day1Input: _*) should be(543)
+    Part1(Day1.input: _*) should be(543)
   }
 
   "Part2" should "work" in {
     import advent.of.code.Day1.Part2
     Part2("+1", "-1", "+3").n should be(0)
     Part2("+1", "-2", "+3", "+1", "+1", "-2", "+100").n should be(2)
-    Part2(Day1Input: _*).n should be(621)
+    Part2(Day1.input: _*).n should be(621)
   }
 }

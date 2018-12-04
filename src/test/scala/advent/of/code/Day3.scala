@@ -10,13 +10,11 @@ object Day3 extends Day {
 
   object Parser {
     // #10 @ 981,813: 15x14
-    def pInt[_: P]: P[Int] = P(CharPred(c => '0' <= c && c <= '9').rep(1).!).map(_.toInt)
+    def pID[_: P]: P[Int] = P("#" ~ pUnsignedInt)
 
-    def pID[_: P]: P[Int] = P("#" ~ pInt)
+    def pPos[_: P]: P[Point] = P(pUnsignedInt ~ "," ~ pUnsignedInt).map { case (x, y) => Point(x, y) }
 
-    def pPos[_: P]: P[Point] = P(pInt ~ "," ~ pInt).map { case (x, y) => Point(x, y) }
-
-    def pWH[_: P]: P[(Int, Int)] = P(pInt ~ "x" ~ pInt)
+    def pWH[_: P]: P[(Int, Int)] = P(pUnsignedInt ~ "x" ~ pUnsignedInt)
 
     def pClaim[_: P]: P[Claim] = P(pID ~ " @ " ~ pPos ~ ": " ~ pWH).map {
       case (id, p: Point, (lx, ly)) => Claim(id, p, lx, ly)
