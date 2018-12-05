@@ -8,17 +8,14 @@ class Day5 extends FlatSpec with Matchers with Day {
   override def dayNumber: Int = 5
 
   @tailrec
-  final def part1(str: String): Int = {
-    def willReact(a: Char, b: Char): Boolean = Math.abs(a - b) == 32
-
-    val res = str.foldLeft("") {
-      case (s, c) =>
-        if (s.isEmpty) s + c
-        else if (willReact(s.last, c)) {
-          s.init
-        } else s + c
+  final def part1(x: String): Int = {
+    val r = x.foldLeft("") { (s, c) =>
+      if (s.isEmpty) s + c
+      else if (Math.abs(s.last - c) == 32) {
+        s.init
+      } else s + c
     }
-    if (res.length != str.length) part1(res) else res.length
+    if (r.length != x.length) part1(r) else r.length
   }
 
   def part2(s: String): Int =
