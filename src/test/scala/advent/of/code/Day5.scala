@@ -41,8 +41,6 @@ class Day5 extends FlatSpec with Matchers with Day {
   }
 
   "reaction" should "react" in {
-    println(part2("dabAcCaCBAcCcaDA"))
-
     part1("dabAcCaCBAcCcaDA") should be(10)
     part1(this.input.head) should be(10450)
     part2("dabAcCaCBAcCcaDA") should be(4)
