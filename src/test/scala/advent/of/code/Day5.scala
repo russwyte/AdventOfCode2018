@@ -3,6 +3,7 @@ package advent.of.code
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.annotation.tailrec
+import scala.collection.mutable.ArrayBuffer
 
 class Day5 extends FlatSpec with Matchers with Day {
 
@@ -10,24 +11,17 @@ class Day5 extends FlatSpec with Matchers with Day {
 
   def willReact(a: Char, b: Char): Boolean = Math.abs(a - b) == 32
 
-  def stream(l: List[Char]): Stream[Char] = {
-    l match {
-      case Nil => Stream.empty
-      case a :: Nil => a #:: stream(Nil)
-      case a :: b :: xs =>
-        if (willReact(a, b)) {
-          stream(xs)
-        } else {
-          a #:: stream(b :: xs)
-        }
-    }
-  }
 
-  // I could optimize this - but it is fast enough
   @tailrec
-  final def part1(s: String): Int = {
-    val res = stream(s.toList).mkString
-    if (res == s) res.length else part1(res)
+  final def part1(s: String):Int = {
+    val res = s.foldLeft(""){case (s,c) =>
+      if (s.isEmpty) s + c
+      else if (willReact(s.last,c)) {
+        s.init
+      }
+      else s + c
+    }
+    if (res != s) part1(res) else res.length
   }
 
   def part2(s: String): Int = {
