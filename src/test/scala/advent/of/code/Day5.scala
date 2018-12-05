@@ -21,7 +21,7 @@ class Day5 extends FlatSpec with Matchers with Day {
       }
       else s + c
     }
-    if (res != s) part1(res) else res.length
+    if (res.length != s.length) part1(res) else res.length
   }
 
   def part2(s: String): Int = {
