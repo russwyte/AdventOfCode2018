@@ -2,10 +2,8 @@ package advent.of.code
 
 import fastparse.NoWhitespace._
 import fastparse._
-import org.scalatest.{FlatSpec, Matchers}
 
-class Day4 extends FlatSpec with Day with Matchers {
-  override def dayNumber: Int = 4
+class Day4 extends Day(4) {
 
   val Sample =
     "[1518-11-01 00:00] Guard #10 begins shift\n[1518-11-01 00:05] falls asleep\n[1518-11-01 00:25] wakes up\n[1518-11-01 00:30] falls asleep\n[1518-11-01 00:55] wakes up\n[1518-11-01 23:58] Guard #99 begins shift\n[1518-11-02 00:40] falls asleep\n[1518-11-02 00:50] wakes up\n[1518-11-03 00:05] Guard #10 begins shift\n[1518-11-03 00:24] falls asleep\n[1518-11-03 00:29] wakes up\n[1518-11-04 00:02] Guard #99 begins shift\n[1518-11-04 00:36] falls asleep\n[1518-11-04 00:46] wakes up\n[1518-11-05 00:03] Guard #99 begins shift\n[1518-11-05 00:45] falls asleep\n[1518-11-05 00:55] wakes up".linesIterator.toList
@@ -53,12 +51,12 @@ class Day4 extends FlatSpec with Day with Matchers {
       ls match {
         case (s: StartShift) :: xs =>
           val start = Shift(s.id)
-          val p = xs.span(!_.isStart)
+          val p     = xs.span(!_.isStart)
           val shift = p._1.takeWhile(!_.isStart).sliding(2, 2).foldLeft(start) {
             case (x, es) =>
               es match {
                 case List(s: Sleep, w: Wake) => x.apply(s, w)
-                case _ => x
+                case _                       => x
               }
           }
           inner(p._2, shift :: acc)
@@ -73,8 +71,8 @@ class Day4 extends FlatSpec with Day with Matchers {
     shifts.groupBy(_.id).toList.maxBy(_._2.foldLeft(0)((a, x) => a + x.sleptMiniutes.length))._1
 
   def part1(shifts: List[Shift]) = {
-    val id = sleepy(shifts)
-    val ss = shifts.filter(_.id == id).map(_.sleptMiniutes.sorted)
+    val id  = sleepy(shifts)
+    val ss  = shifts.filter(_.id == id).map(_.sleptMiniutes.sorted)
     val min = ss.foldLeft(60)((acc, x) => if (x.head < acc) x.head else acc)
     val max = ss.foldLeft(0)((acc, x) => if (x.last > acc) x.last else acc)
 
@@ -88,7 +86,7 @@ class Day4 extends FlatSpec with Day with Matchers {
     def mostSleptMinute(ls: List[Shift]): (Int, Int) =
       (0 until 60).map(n => (n, ls.count(_.sleptMiniutes.contains(n)))).maxBy(_._2)
 
-    val ss = shifts.groupBy(_.id).map(x => x._1 -> mostSleptMinute(x._2))
+    val ss  = shifts.groupBy(_.id).map(x => x._1 -> mostSleptMinute(x._2))
     val res = ss.maxBy(_._2._2)
     res._1 * res._2._1
   }

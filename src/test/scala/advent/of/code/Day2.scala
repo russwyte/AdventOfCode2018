@@ -1,10 +1,6 @@
 package advent.of.code
 
-import org.scalatest.{FlatSpec, Matchers}
-
-object Day2 extends Day {
-
-  override def dayNumber: Int = 2
+object Day2 {
 
   object Part1 {
 
@@ -40,11 +36,10 @@ object Day2 extends Day {
 
 }
 
-class Day2Specs extends FlatSpec with Matchers {
+class Day2Specs extends Day(2) {
 
   import Day2.Part1._
   import Day2.Part2._
-
 
   val ss = Seq("abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab")
   "has chars that occur twice" should "work" in {
@@ -65,10 +60,10 @@ class Day2Specs extends FlatSpec with Matchers {
   }
   "checksum for part1" should "work" in {
     checkSum(ss) should be(12)
-    checkSum(Day2.input) should be(7350)
+    checkSum(input) should be(7350)
   }
   "finding for part2" should "work" in {
     find(Seq("abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz")) should be(Seq("fgij"))
-    find(Day2.input) should be(Seq("wmlnjevbfodamyiqpucrhsukg"))
+    find(input) should be(Seq("wmlnjevbfodamyiqpucrhsukg"))
   }
 }

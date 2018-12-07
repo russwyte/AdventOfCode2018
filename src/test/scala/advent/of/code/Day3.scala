@@ -3,10 +3,8 @@ package advent.of.code
 import advent.of.code.Day3.{Claim, Point}
 import fastparse.NoWhitespace._
 import fastparse._
-import org.scalatest.{FlatSpec, Matchers}
 
-object Day3 extends Day {
-  override def dayNumber: Int = 3
+object Day3 {
 
   object Parser {
     // #10 @ 981,813: 15x14
@@ -53,14 +51,14 @@ object Day3 extends Day {
   }
 }
 
-class Day3Specs extends FlatSpec with Matchers {
+class Day3Specs extends Day(3) {
   val rs = List(
     Claim(1, Point(1, 3), 4, 4),
     Claim(2, Point(3, 1), 4, 4),
     Claim(3, Point(5, 5), 2, 2),
   )
 
-  val claims = Day3.input.map(parse(_, Day3.Parser.pClaim(_)).get.value)
+  val claims = input.map(parse(_, Day3.Parser.pClaim(_)).get.value)
   "part1" should "work" in {
     Day3.part1(rs: _*) should be(4)
     Day3.part1(claims: _*) should be(118858)

@@ -1,10 +1,6 @@
 package advent.of.code
 
-import org.scalatest.{FlatSpec, Matchers}
-
-class Day6 extends FlatSpec with Matchers with Day {
-
-  override def dayNumber: Int = 6
+class Day6 extends Day(6) {
 
   val points: List[Point] = input.map { s =>
     val Array(x, y) = s.split(", ").map(_.toInt)
@@ -19,8 +15,10 @@ class Day6 extends FlatSpec with Matchers with Day {
     def boundedPoints: Seq[Point] = {
       (tl.x to br.x).flatMap(x => (tl.y to br.y).map(y => Point(x, y)))
     }
+
     def contains(p: Point): Boolean = tl.x < p.x && tl.y < p.y && br.x > p.x && br.y > p.y
   }
+
   object Bounds {
     def apply(ps: Seq[Point]): Bounds = {
       val tl = Point(ps.minBy(_.x).x, ps.minBy(_.y).y)
@@ -36,11 +34,13 @@ class Day6 extends FlatSpec with Matchers with Day {
         case _                                   => None
       }
     }
+
     val bounds                  = Bounds(ps)
     val grid: Map[Point, Point] = bounds.boundedPoints.flatMap(bp => closest(bp).map(cp => bp -> cp)).toMap
     val finite                  = grid.filterKeys(bounds.contains)
     finite.groupBy(_._2).mapValues(_.size).values.max
   }
+
   def part2(ps: Seq[Point], safe: Int): Int = Bounds(ps).boundedPoints.count(x => ps.map(_.mDistance(x)).sum < safe)
 
   val sample =

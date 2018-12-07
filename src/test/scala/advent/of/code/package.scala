@@ -31,10 +31,10 @@ package object code {
   }
 
   object DateWithTime {
-    val Hour = 60
-    val Day = 24 * Hour
+    val Hour  = 60
+    val Day   = 24 * Hour
     val Month = 31 * Day
-    val Year = 12 * Month
+    val Year  = 12 * Month
   }
 
 }
