@@ -60,10 +60,10 @@ class Day2Specs extends Day(2) {
   }
   "checksum for part1" should "work" in {
     checkSum(ss) should be(12)
-    checkSum(input) should be(7350)
+    checkSum(lines) should be(7350)
   }
   "finding for part2" should "work" in {
     find(Seq("abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz")) should be(Seq("fgij"))
-    find(input) should be(Seq("wmlnjevbfodamyiqpucrhsukg"))
+    find(lines) should be(Seq("wmlnjevbfodamyiqpucrhsukg"))
   }
 }

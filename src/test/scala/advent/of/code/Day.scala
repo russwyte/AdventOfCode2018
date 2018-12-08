@@ -5,5 +5,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import scala.io.Source
 
 abstract class Day(val dayNumber: Int) extends FlatSpec with Matchers {
-  lazy val input: List[String] = Source.fromFile(s"inputs/Day$dayNumber.txt").getLines().toList
+  val source                   = Source.fromFile(s"inputs/Day$dayNumber.txt")
+  lazy val lines: List[String] = source.getLines().toList
+  lazy val raw: String         = source.mkString
 }

@@ -3,6 +3,8 @@ package advent.of.code
 import fastparse.NoWhitespace._
 import fastparse._
 
+import scala.annotation.tailrec
+
 class Day7 extends Day(7) {
 
   type Step      = Char
@@ -77,6 +79,7 @@ class Day7 extends Day(7) {
       }
     }
 
+    @tailrec
     def inner(progress: Progress, time: Int): Int = {
       if (progress.finished) time
       else {
@@ -97,8 +100,8 @@ class Day7 extends Day(7) {
                    Order('F', 'E'))
   "Day 7" should "go well" in {
     part1(Sample).mkString should be("CABDFE")
-    part1(input.map(parse(_, pOrder(_)).get.value)).mkString should be("BITRAQVSGUWKXYHMZPOCDLJNFE")
+    part1(lines.map(parse(_, pOrder(_)).get.value)).mkString should be("BITRAQVSGUWKXYHMZPOCDLJNFE")
     part2(Sample, 2, 0) should be(15)
-    part2(input.map(parse(_, pOrder(_)).get.value), 5, 60) should be(869)
+    part2(lines.map(parse(_, pOrder(_)).get.value), 5, 60) should be(869)
   }
 }

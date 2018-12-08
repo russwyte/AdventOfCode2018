@@ -14,8 +14,8 @@ class Day5 extends Day(5) {
 
   "reaction" should "react" in {
     p1("dabAcCaCBAcCcaDA") should be(10)
-    p1(this.input.head) should be(10450)
+    p1(lines.head) should be(10450)
     p2("dabAcCaCBAcCcaDA") should be(4)
-    p2(this.input.head) should be(4624)
+    p2(lines.head) should be(4624)
   }
 }

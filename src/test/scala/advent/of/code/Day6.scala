@@ -2,7 +2,7 @@ package advent.of.code
 
 class Day6 extends Day(6) {
 
-  val points: List[Point] = input.map { s =>
+  val points: List[Point] = lines.map { s =>
     val Array(x, y) = s.split(", ").map(_.toInt)
     Point(x, y)
   }

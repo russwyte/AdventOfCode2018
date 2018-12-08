@@ -93,8 +93,8 @@ class Day4 extends Day(4) {
 
   "Day4" should "work" in {
     part1(shifts(events(Sample))) should be(240)
-    part1(shifts(events(input))) should be(143415)
+    part1(shifts(events(lines))) should be(143415)
     part2(shifts(events(Sample))) should be(4455)
-    part2(shifts(events(input))) should be(49944)
+    part2(shifts(events(lines))) should be(49944)
   }
 }

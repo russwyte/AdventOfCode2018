@@ -58,7 +58,7 @@ class Day3Specs extends Day(3) {
     Claim(3, Point(5, 5), 2, 2),
   )
 
-  val claims = input.map(parse(_, Day3.Parser.pClaim(_)).get.value)
+  val claims = lines.map(parse(_, Day3.Parser.pClaim(_)).get.value)
   "part1" should "work" in {
     Day3.part1(rs: _*) should be(4)
     Day3.part1(claims: _*) should be(118858)
