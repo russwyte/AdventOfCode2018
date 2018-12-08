@@ -6,8 +6,9 @@ class Day8 extends Day(8) {
   case class Node(children: Seq[Node], metaData: Seq[Int]) {
     def sum: Int = metaData.sum + children.map(_.sum).sum
     def value: Int = {
-      if (children.isEmpty) metaData.sum
-      else {
+      if (children.isEmpty) {
+        metaData.sum
+      } else {
         metaData.map(n => children.lift(n - 1).map(_.value).getOrElse(0)).sum
       }
     }
@@ -37,6 +38,8 @@ class Day8 extends Day(8) {
   "part1" should "succeed" in {
     node(Sample).sum should be(138)
     node(raw).sum should be(46829)
+  }
+  "part2" should "succeed" in {
     node(Sample).value should be(66)
     node(raw).value should be(37450)
   }
