@@ -21,17 +21,18 @@ class Day10 extends Day(10) {
 
   def bounds(stars: Seq[Star]) = Bounds(stars.map(_.position))
 
-  case class Message(stars: Seq[Star], elapsed: Int)
+  case class Result(message: String, elapsed: Int)
   @tailrec
-  final def find(stars: Seq[Star], n: Int = 0): Message = {
+  final def find(stars: Seq[Star], n: Int = 0): Result = {
     val b    = bounds(stars)
     val next = stars.map(_.advance)
     // if any star in the next set escapes the bounds we know we are done
-    if (next.exists(x => !b.contains(x.position))) Message(stars, n) else find(next, n + 1)
+    if (next.exists(x => !b.contains(x.position))) Result(read(stars), n) else find(next, n + 1)
   }
-  def show(message: Message): Unit = {
-    val m = message.stars.map(_.position).toSet
-    val b = bounds(message.stars)
+  def read(stars: Seq[Star]): String = {
+    val m      = stars.map(_.position).toSet
+    val b      = bounds(stars)
+    val buffer = new StringBuffer()
     for {
       y <- b.tl.y to b.br.y
     } {
@@ -39,12 +40,40 @@ class Day10 extends Day(10) {
         x <- b.tl.x to b.br.x
       } {
         val p = Point(x, y)
-        if (m(p)) print("X") else print(" ")
+        if (m(p)) buffer.append('X') else buffer.append('.')
       }
-      println()
+      buffer.append('\n')
     }
-    println(s"in:${message.elapsed} seconds.")
+    buffer.toString
   }
-  show(find(Sample))
-  show(find(Input))
+  "finding" should "work" in {
+    val r1 = find(Sample)
+    r1.elapsed should be(3)
+    r1.message should be(
+      """X...X..XXX
+        |X...X...X.
+        |X...X...X.
+        |XXXXX...X.
+        |X...X...X.
+        |X...X...X.
+        |X...X...X.
+        |X...X..XXX
+        |""".stripMargin
+    )
+    val r2 = find(Input)
+    r2.elapsed should be(10418)
+    r2.message should be(
+      """XXXXXX..X....X..X....X..XXXXX...XXXXXX.....XXX..X....X..XXXXX.
+        |.....X..XX...X..XX...X..X....X.......X......X...X....X..X....X
+        |.....X..XX...X..XX...X..X....X.......X......X....X..X...X....X
+        |....X...X.X..X..X.X..X..X....X......X.......X....X..X...X....X
+        |...X....X.X..X..X.X..X..XXXXX......X........X.....XX....XXXXX.
+        |..X.....X..X.X..X..X.X..X..X......X.........X.....XX....X.....
+        |.X......X..X.X..X..X.X..X...X....X..........X....X..X...X.....
+        |X.......X...XX..X...XX..X...X...X.......X...X....X..X...X.....
+        |X.......X...XX..X...XX..X....X..X.......X...X...X....X..X.....
+        |XXXXXX..X....X..X....X..X....X..XXXXXX...XXX....X....X..X.....
+        |""".stripMargin
+    )
+  }
 }
