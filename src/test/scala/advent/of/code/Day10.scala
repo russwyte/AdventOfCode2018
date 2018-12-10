@@ -10,7 +10,7 @@ class Day10 extends Day(10) {
       .map(parse(_, pStar(_)).get.value)
       .toSeq
   val Input = lines.map(parse(_, pStar(_)).get.value)
-  // we will iterate through these while the bounds is shrinking. If it start to grow we know to stop
+
   case class Star(position: Point, velocity: Point) {
     def advance: Star = copy(position = Point(position.x + velocity.x, position.y + velocity.y))
   }
@@ -24,9 +24,10 @@ class Day10 extends Day(10) {
   case class Message(stars: Seq[Star], elapsed: Int)
   @tailrec
   final def find(stars: Seq[Star], n: Int = 0): Message = {
-    val a    = bounds(stars)
+    val b    = bounds(stars)
     val next = stars.map(_.advance)
-    if (next.exists(x => !a.contains(x.position))) Message(stars, n) else find(next, n + 1)
+    // if any star in the next set escapes the bounds we know we are done
+    if (next.exists(x => !b.contains(x.position))) Message(stars, n) else find(next, n + 1)
   }
   def show(message: Message): Unit = {
     val m = message.stars.map(_.position).toSet
