@@ -5,6 +5,10 @@ import fastparse._
 
 package object code {
   def pUnsignedInt[_: P]: P[Int] = P(CharPred(c => '0' <= c && c <= '9').rep(1).!).map(_.toInt)
+  def pInt[_: P]: P[Int] = P("-".!.? ~ pUnsignedInt).map {
+    case (None, n)    => n
+    case (Some(_), n) => -n
+  }
 
   // [1518-05-12 00:39] wakes up
   def pDateWithTime[_: P]: P[DateWithTime] =

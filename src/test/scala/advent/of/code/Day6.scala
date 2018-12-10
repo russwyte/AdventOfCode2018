@@ -7,26 +7,6 @@ class Day6 extends Day(6) {
     Point(x, y)
   }
 
-  case class Point(x: Int, y: Int) {
-    def mDistance(p: Point): Int = Math.abs(x - p.x) + Math.abs(y - p.y)
-  }
-
-  case class Bounds(tl: Point, br: Point) {
-    def boundedPoints: Seq[Point] = {
-      (tl.x to br.x).flatMap(x => (tl.y to br.y).map(y => Point(x, y)))
-    }
-
-    def contains(p: Point): Boolean = tl.x < p.x && tl.y < p.y && br.x > p.x && br.y > p.y
-  }
-
-  object Bounds {
-    def apply(ps: Seq[Point]): Bounds = {
-      val tl = Point(ps.minBy(_.x).x, ps.minBy(_.y).y)
-      val br = Point(ps.maxBy(_.x).x, ps.maxBy(_.y).y)
-      Bounds(tl, br)
-    }
-  }
-
   def part1(ps: Seq[Point]): Int = {
     def closest(location: Point): Option[Point] = {
       ps.map(p => p -> p.mDistance(location)).sortBy { case (_, d) => d }.toList match {
