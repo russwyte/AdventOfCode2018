@@ -6,6 +6,9 @@ case class Bounds(tl: Point, br: Point) {
   }
 
   def contains(p: Point): Boolean = tl.x < p.x && tl.y < p.y && br.x > p.x && br.y > p.y
+  def width                       = br.x - tl.x
+  def height: Int                 = br.y - tl.y
+  def area                        = width * height
 }
 
 object Bounds {

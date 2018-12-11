@@ -30,21 +30,12 @@ class Day10 extends Day(10) {
     if (next.exists(x => !b.contains(x.position))) Result(read(stars), n) else find(next, n + 1)
   }
   def read(stars: Seq[Star]): String = {
-    val m      = stars.map(_.position).toSet
-    val b      = bounds(stars)
-    val buffer = new StringBuffer()
-    for {
-      y <- b.tl.y to b.br.y
-    } {
-      for {
-        x <- b.tl.x to b.br.x
-      } {
-        val p = Point(x, y)
-        if (m(p)) buffer.append('#') else buffer.append('.')
-      }
-      buffer.append('\n')
-    }
-    buffer.toString
+    val m = stars.map(_.position).toSet
+    val b = bounds(stars)
+    (b.tl.y to b.br.y).foldLeft("")(
+      (s, y) =>
+        (b.tl.x to b.br.x)
+          .foldLeft(s)((s, x) => s + (if (m(Point(x, y))) "#" else ".")) + "\n")
   }
   "finding" should "work" in {
     val r1 = find(Sample)
