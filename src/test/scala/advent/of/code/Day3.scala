@@ -1,6 +1,6 @@
 package advent.of.code
 
-import advent.of.code.Day3.{Claim, Point}
+import advent.of.code.Day3.Claim
 import fastparse.NoWhitespace._
 import fastparse._
 
@@ -29,9 +29,6 @@ object Day3 {
       }).toList
     }
   }
-
-  case class Point(x: Int, y: Int)
-
   def part1(claims: Claim*): Int = {
     claims.flatMap(x => x.area).groupBy(identity).map(_._2.size).count(x => x > 1)
   }
