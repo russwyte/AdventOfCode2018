@@ -1,7 +1,8 @@
 package advent.of.code
+import scala.annotation.tailrec
 
-case class CircleZipper[T](left: List[T], focus: T, right: List[T]) {
-  def next: CircleZipper[T] = right match {
+case class CircleZipper[A](left: List[A], focus: A, right: List[A]) {
+  def next: CircleZipper[A] = right match {
     case Nil =>
       left.reverse match {
         case Nil     => this
@@ -10,7 +11,7 @@ case class CircleZipper[T](left: List[T], focus: T, right: List[T]) {
     case t :: ts => CircleZipper(focus :: left, t, ts)
   }
 
-  def previous: CircleZipper[T] = left match {
+  def previous: CircleZipper[A] = left match {
     case Nil =>
       right.reverse match {
         case Nil     => this
@@ -19,14 +20,30 @@ case class CircleZipper[T](left: List[T], focus: T, right: List[T]) {
     case t :: ts => CircleZipper(ts, t, focus :: right)
   }
 
-  def rotate(n: Int): CircleZipper[T] = {
+  def rotate(n: Int): CircleZipper[A] = {
     if (n > 0) next.rotate(n - 1)
     else if (n < 0) previous.rotate(n + 1)
     else this
   }
 
-  def insert(t: T): CircleZipper[T] = CircleZipper(left, t, focus :: right)
-  def remove: CircleZipper[T] = right match {
+  def insert(t: A): CircleZipper[A] = CircleZipper(left, t, focus :: right)
+
+  def update(t: A): CircleZipper[A] = remove.insert(t)
+
+  def foldLeft[B](b: B)(f: (B, CircleZipper[A]) => B): B = {
+    @tailrec
+    def inner(count: Int, z: CircleZipper[A], b: B): B = {
+      if (count == 0) b
+      else {
+        inner(count - 1, z.next, f(b, z))
+      }
+    }
+    inner(length, this, b)
+  }
+
+  def length = 1 + left.length + right.length
+
+  def remove: CircleZipper[A] = right match {
     case Nil =>
       left match {
         case Nil     => this
