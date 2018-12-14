@@ -21,6 +21,7 @@ class Day13 extends Day(13) {
       copy(carts = c)
     }
     def tick2 = {
+      @tailrec
       def inner(left: List[Cart], moved: List[Cart]): List[Cart] = {
         left match {
           case Nil => moved
