@@ -66,22 +66,12 @@ class Day13 extends Day(13) {
     }
   }
   case class Grid(vector: Vector[Vector[Char]]) {
-    def apply(point: Point): Char = vector(point.y)(point.x)
     override def toString: String = vector.map(_.mkString("")).mkString("\n")
     def carts: Seq[Cart] = {
-      def getCart(p: Point): Option[Cart] = {
-        this(p) match {
-          case '^' => Some(Cart(p, North))
-          case 'v' => Some(Cart(p, South))
-          case '>' => Some(Cart(p, East))
-          case '<' => Some(Cart(p, West))
-          case _   => None
-        }
-      }
       for {
         y <- vector.indices
         x <- vector(y).indices
-        c <- getCart(Point(x, y))
+        c <- Direction(vector(y)(x)).map(d => Cart(Point(x, y), d))
       } yield {
         c
       }
@@ -149,8 +139,8 @@ class Day13 extends Day(13) {
     }
   }
   object Direction {
-    val Directions: Map[Char, Direction] = Map(North.c -> North, South.c -> South, East.c -> East, West.c -> West)
-    def apply(c: Char): Direction        = Directions(c)
+    val Directions: Map[Char, Direction]  = Map(North.c -> North, South.c -> South, East.c -> East, West.c -> West)
+    def apply(c: Char): Option[Direction] = Directions.get(c)
   }
 
   case class Cart(position: Point,
@@ -158,7 +148,7 @@ class Day13 extends Day(13) {
                   turns: Iterator[Turn] = Iterator.continually(List(Left, Straight, Right)).flatten) {
     def advance(grid: Grid): Cart = {
       val p = position + direction.move
-      val c = grid(p)
+      val c = grid.vector(p.y)(p.x)
       val d = direction.next(c, turns)
       copy(position = p, direction = d)
     }
