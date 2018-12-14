@@ -8,14 +8,6 @@ class Day13 extends Day(13) {
   case object Straight extends Turn
 
   case class System(tracks: Grid, carts: Seq[Cart]) {
-    override def toString: String = {
-      val vy = tracks.vector.map(_.zipWithIndex).zipWithIndex
-      vy.map {
-          case (vx, y) =>
-            vx.map { case (c, x) => carts.find(_.position == Point(x, y)).map(_.direction.c).getOrElse(c) }.mkString
-        }
-        .mkString("\n")
-    }
     def tick = {
       val c = carts.sortBy(c => (c.position.y, c.position.x)).map(_.advance(tracks))
       copy(carts = c)
@@ -67,7 +59,6 @@ class Day13 extends Day(13) {
     }
   }
   case class Grid(vector: Vector[Vector[Char]]) {
-    override def toString: String = vector.map(_.mkString("")).mkString("\n")
     def carts: Seq[Cart] = {
       for {
         y <- vector.indices
