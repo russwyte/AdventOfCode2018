@@ -20,14 +20,14 @@ class Day14 extends FlatSpec with Matchers {
       inner(this).recipes.splitAt(n)._2.take(10).mkString
     }
     // I am not crazy about this solution - it is rather slow
-    def part2(s: String): Int = {
+    def part2(s: String, step: Int = 100): Int = {
       @tailrec
       def inner(b: Board): Int = {
-        val rs = b.recipes.takeRight(s.length + 12).mkString
+        val rs = b.recipes.takeRight(s.length + step * 2).mkString
         if (rs.contains(s)) {
           b.recipes.mkString.indexOf(s)
         } else {
-          inner(b.tick.tick.tick.tick.tick.tick)
+          inner((1 to step).foldLeft(b)((b, _) => b.tick))
         }
       }
       inner(this)
