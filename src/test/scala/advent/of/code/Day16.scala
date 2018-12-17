@@ -113,11 +113,12 @@ class Day16 extends Day(16) {
   def countMatchingInstructions(effect: Effect): Int                 = matchingInstructions(effect).size
   def matchingInstructions(effect: Effect): Map[String, Instruction] = opMap.filter(x => check(x._2, effect))
 
-  lazy val grouped = effects.groupBy(_.operation.opCode)
+  lazy val grouped: Map[Int, Set[String]] =
+    effects.groupBy(_.operation.opCode).mapValues(x => x.flatMap(e => matchingInstructions(e).keySet).toSet)
 
   lazy val instructions: Map[Int, String] = {
     effects
-      .foldLeft((0 to 15).map(_ -> opMap.keySet).toMap)({ (m, effect) =>
+      .foldLeft(grouped)({ (m, effect) =>
         val common = m(effect.operation.opCode) intersect matchingInstructions(effect).keySet
         val om     = m.updated(effect.operation.opCode, common)
         if (common.size == 1)
@@ -127,8 +128,6 @@ class Day16 extends Day(16) {
       })
       .mapValues(s => s.head)
   }
-
-  println(instructions)
 
   "The example" should "work" in {
     parse("Before: [1, 2, 0, 1]\n", pRegisters(_)).get.value should be(Registers(1, 2, 0, 1))
