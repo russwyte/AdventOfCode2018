@@ -114,8 +114,6 @@ class Day17 extends Day(17) {
               val right = (p.x to spreadRight(p)).map(x => Point(x, p.y)).map(p => p -> flood(p))
               val mm    = left ++ right
               mm.filter(x => bounds.br.y >= x._1.y)
-//              val mm: Soil =
-//                Map(p.east -> flood(p.east), p.west -> flood(p.west), p -> flood(p)).filter(x => bounds.contains(x._1))
               s ++ mm
             case _ => if (bounds.br.y >= p.south.y) s.updated(p.south, Flowing) else s
           }

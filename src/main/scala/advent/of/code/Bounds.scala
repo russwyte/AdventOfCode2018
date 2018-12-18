@@ -12,7 +12,7 @@ case class Bounds(tl: Point, br: Point) {
 }
 
 object Bounds {
-  def apply(ps: Seq[Point]): Bounds = {
+  def apply(ps: Iterable[Point]): Bounds = {
     val tl = Point(ps.minBy(_.x).x, ps.minBy(_.y).y)
     val br = Point(ps.maxBy(_.x).x, ps.maxBy(_.y).y)
     Bounds(tl, br)

@@ -10,7 +10,7 @@ class Day15 extends Day(15) {
 
     def isOpen(p: Point): Boolean = !players.exists(_.pos == p) && grid(p.y)(p.x) == Open
 
-    def inRange(p: Player) = p.targets(players).flatMap(t => t.pos.directlyAdjacent).filter(isOpen)
+    def inRange(p: Player) = p.targets(players).flatMap(t => t.pos.cardinal).filter(isOpen)
 
     def getPlayerChar(p: Point): Option[Char] = players.find(_.pos == p).map {
       case _: Goblin => G
@@ -20,7 +20,7 @@ class Day15 extends Day(15) {
     def mapDistances(origin: Point, desinations: Set[Point]): Map[Point, Int] = {
       @tailrec
       def inner(visited: Map[Point, Int], toVisit: Map[Point, Int]): Map[Point, Int] = {
-        val res = toVisit.flatMap { case (p, d) => p.directlyAdjacent.filter(isOpen).map(_ -> (d + 1)) } -- visited.keys
+        val res = toVisit.flatMap { case (p, d) => p.cardinal.filter(isOpen).map(_ -> (d + 1)) } -- visited.keys
         if (res.isEmpty) {
           visited ++ toVisit
         } else {
@@ -33,7 +33,7 @@ class Day15 extends Day(15) {
     def reachable(p: Player): Map[Point, Int] = mapDistances(p.pos, inRange(p))
 
     def getTarget(p: Player): Option[Player] = {
-      p.pos.directlyAdjacent.flatMap(pt => p.targets(players).find(_.pos == pt)).toList.sorted.headOption
+      p.pos.cardinal.flatMap(pt => p.targets(players).find(_.pos == pt)).toList.sorted.headOption
     }
 
     def nearestPoints(p: Player): Set[Point] = {
@@ -84,7 +84,7 @@ class Day15 extends Day(15) {
     def move(p: Player): Board = {
       getTarget(p).fold {
         chosenPoint(p).fold(this) { pt =>
-          val ms         = mapDistances(pt, p.pos.directlyAdjacent)
+          val ms         = mapDistances(pt, p.pos.cardinal)
           val min        = ms.values.min
           val nextPoint  = ms.filter(_._2 == min).keys.min
           val nextPlayer = p.moveTo(nextPoint)
