@@ -70,7 +70,6 @@ class Day18 extends Day(18) {
     val b    = Bounds(area.keys)
     @tailrec
     def inner(a: Area, n: Int): Area = {
-//      println(show(a))
       if (n == 0) a
       else {
         inner(tick(a, b), n - 1)
@@ -93,7 +92,6 @@ class Day18 extends Day(18) {
       if (as.contains(aa)) {
         val res = as.reverse
         val x   = res.indexOf(aa)
-        println(x, res.size)
         (x, res.map(calc))
       } else inner(aa, n + 1, aa :: as)
     }
