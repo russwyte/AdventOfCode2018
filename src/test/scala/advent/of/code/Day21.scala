@@ -4,7 +4,13 @@ import org.scalatest.{FlatSpec, Matchers}
 import scala.collection.mutable
 
 class Day21 extends FlatSpec with Matchers {
-  // I went straight to reverse engineering because I didn't want to waste time on the faulty device :)
+
+  /**
+    *   I went straight to reverse engineering because I didn't want to waste time on the faulty device :)
+    *   personally - I am not a fan of this sort of puzzle because we end up coding a very specific solution
+    *   for exactly one program input and not a general one.
+    *
+    **/
   lazy val solutions: Seq[Int] = {
     // need to preserve insert order
     val rs: mutable.LinkedHashSet[Int] = mutable.LinkedHashSet.empty
