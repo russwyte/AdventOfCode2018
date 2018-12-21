@@ -1,7 +1,9 @@
 package advent.of.code
+import org.scalatest.{FlatSpec, Matchers}
+
 import scala.collection.mutable
 
-class Day21 extends Day(21) {
+class Day21 extends FlatSpec with Matchers {
   // I went straight to reverse engineering because I didn't want to waste time on the faulty device :)
   lazy val solutions: Seq[Int] = {
     // need to preserve insert order
