@@ -1,10 +1,13 @@
 package advent.of
-
-import fastparse.NoWhitespace._
 import fastparse._
+import fastparse.NoWhitespace._
 
 package object code {
+
+  type Graph[N] = N => Map[N, Int]
+
   def pUnsignedInt[_: P]: P[Int] = P(CharPred(c => '0' <= c && c <= '9').rep(1).!).map(_.toInt)
+
   def pInt[_: P]: P[Int] = P("-".!.? ~ pUnsignedInt).map {
     case (None, n)    => n
     case (Some(_), n) => -n

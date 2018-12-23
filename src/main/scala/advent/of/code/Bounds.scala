@@ -1,14 +1,13 @@
 package advent.of.code
 
 case class Bounds(tl: Point, br: Point) {
-  def boundedPoints: Seq[Point] = {
-    (tl.x to br.x).flatMap(x => (tl.y to br.y).map(y => Point(x, y)))
-  }
-
+  def boundedPoints: Seq[Point]   = xRange.flatMap(x => yRange.map(y => Point(x, y)))
+  def xRange: Range               = tl.x to br.x
+  def yRange: Range               = tl.y to br.y
   def contains(p: Point): Boolean = tl.x <= p.x && tl.y <= p.y && br.x >= p.x && br.y >= p.y
-  def width                       = br.x - tl.x
+  def width: Int                  = br.x - tl.x
   def height: Int                 = br.y - tl.y
-  def area                        = width * height
+  def area: Int                   = width * height
 }
 
 object Bounds {
