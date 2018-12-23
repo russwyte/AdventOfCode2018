@@ -31,7 +31,9 @@ class Day23 extends Day(23) {
     P(
       "pos=<" ~ (pInt ~ "," ~ pInt ~ "," ~ pInt)
         .map { case (x, y, z) => Point(x, y, z) } ~ ">, r=" ~ pUnsignedInt ~ "\n".?).map(Bot.tupled).rep
+
   def parseBots(s: String): Seq[Bot] = parse(s, pBots(_)).get.value
+
   def inRangeOfStrongest(s: String): Int = {
     val bots      = parseBots(s)
     val strongest = bots.maxBy(_.r)
