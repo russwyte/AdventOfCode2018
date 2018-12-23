@@ -16,7 +16,7 @@ class Day10 extends Day(10) {
   }
 
   def pN[_: P]: P[Int]       = P(" ".? ~ pInt)
-  def pPoint[_: P]: P[Point] = P("<" ~ pN ~ ", " ~ pN ~ ">").map(Point.tupled)
+  def pPoint[_: P]: P[Point] = P("<" ~ pN ~ ", " ~ pN ~ ">").map { case (x, y) => Point(x, y) }
   def pStar[_: P]: P[Star]   = P("position=" ~ pPoint ~ " velocity=" ~ pPoint).map(Star.tupled)
 
   def bounds(stars: Seq[Star]) = Bounds(stars.map(_.position))
