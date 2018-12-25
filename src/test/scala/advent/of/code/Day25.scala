@@ -3,6 +3,8 @@ import fastparse._
 import NoWhitespace._
 import graph._
 
+import scala.annotation.tailrec
+
 class Day25 extends Day(25) {
 
   def pPoint[_: P]: P[Point] = P(pInt ~ "," ~ pInt ~ "," ~ pInt ~ "," ~ pInt).map {
@@ -16,14 +18,15 @@ class Day25 extends Day(25) {
   def graph(ps: List[Point]): GraphMap[Point] = ps.map(a => a -> ps.filter(b => a != b && inRange(a, b))).toMap
 
   def constellations(s: String): Int = {
-    def inner(graph: GraphMap[Point], acc: Int): Int = {
+    @tailrec
+    def inner(graph: GraphMap[Point], acc: Int = 0): Int = {
       if (graph.isEmpty) acc
       else {
         val found = Graph(graph).dfs(graph.head._1)
         inner(graph -- found, acc + 1)
       }
     }
-    inner(graph(points(s)), 0)
+    inner(graph(points(s)))
   }
 
   val Sample1 = "0,0,0,0\n 3,0,0,0\n 0,3,0,0\n 0,0,3,0\n 0,0,0,3\n 0,0,0,6\n 9,0,0,0\n12,0,0,0"
