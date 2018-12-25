@@ -30,7 +30,7 @@ class Day23 extends Day(23) {
   def pBots[_: P]: P[Seq[Bot]] =
     P(
       "pos=<" ~ (pInt ~ "," ~ pInt ~ "," ~ pInt)
-        .map { case (x, y, z) => Point(x, y, z) } ~ ">, r=" ~ pUnsignedInt ~ "\n".?).map(Bot.tupled).rep
+        .map { case (x, y, z) => Point(x, y, z, 0) } ~ ">, r=" ~ pUnsignedInt ~ "\n".?).map(Bot.tupled).rep
 
   def parseBots(s: String): Seq[Bot] = parse(s, pBots(_)).get.value
 
@@ -65,7 +65,7 @@ class Day23 extends Day(23) {
     val bots = parseBots(s)
     val neighbors: Map[Bot, Set[Bot]] =
       bots.map(b1 => b1 -> bots.filter(b2 => b2 != b1 && b1.inRange(b2)).toSet).toMap
-    largestGroup(neighbors).map(b => b.p.mDistance(Point(0, 0, 0)) - b.r).max
+    largestGroup(neighbors).map(b => b.p.mDistance(Point(0, 0, 0, 0)) - b.r).max
   }
 
   inRangeOfStrongest(Sample1) should be(7)

@@ -1,9 +1,9 @@
 package advent.of.code
 
-case class Point(x: Int, y: Int, z: Int) {
-  def mDistance(p: Point): Int  = Math.abs(x - p.x) + Math.abs(y - p.y) + Math.abs(z - p.z)
-  def unary_-(): Point          = Point(-x, -y, -z)
-  def +(other: Point)           = Point(x + other.x, y + other.y, z + other.z)
+case class Point(x: Int, y: Int, z: Int, t: Int) {
+  def mDistance(p: Point): Int  = Math.abs(x - p.x) + Math.abs(y - p.y) + Math.abs(z - p.z) + Math.abs(t - p.t)
+  def unary_-(): Point          = Point(-x, -y, -z, -t)
+  def +(other: Point)           = Point(x + other.x, y + other.y, z + other.z, t + other.t)
   def north: Point              = copy(y = y - 1)
   def south: Point              = copy(y = y + 1)
   def east: Point               = copy(x = x + 1)
@@ -18,5 +18,5 @@ case class Point(x: Int, y: Int, z: Int) {
 }
 object Point {
   // construct a 2D point
-  def apply(x: Int, y: Int) = new Point(x, y, 0)
+  def apply(x: Int, y: Int) = new Point(x, y, 0, 0)
 }
